@@ -1,0 +1,71 @@
+name: test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  model-free:
+    name: ${{ matrix.os }} / py${{ matrix.python }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+        python: ["3.10", "3.11", "3.12", "3.13"]
+        include:
+          - os: windows-latest
+            python: "3.12"
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+
+      - name: Install dev tools (no torch, no models)
+        run: python -m pip install -r requirements-dev.txt
+
+      - name: Lint
+        run: |
+          python -m ruff check .
+          python -m ruff format --check .
+
+      - name: Model-free tests
+        run: python -m pytest -q
+
+      - name: Import smoke test (ComfyUI-style package load, nothing heavy imported)
+        shell: python
+        run: |
+          import importlib.util, os, sys
+          root = os.getcwd()
+          spec = importlib.util.spec_from_file_location(
+              "ComfyUI-SparkDiffusion", os.path.join(root, "__init__.py"), submodule_search_locations=[root])
+          mod = importlib.util.module_from_spec(spec)
+          sys.modules[spec.name] = mod
+          spec.loader.exec_module(mod)
+          assert len(mod.NODE_CLASS_MAPPINGS) == 6, mod.NODE_CLASS_MAPPINGS
+          heavy = [m for m in ("torch", "triton", "flash_attn", "sparkdiffusion") if m in sys.modules]
+          assert not heavy, heavy
+          print("registered:", sorted(mod.NODE_CLASS_MAPPINGS))
+
+      - name: Workflow JSON parse
+        shell: python
+        run: |
+          import glob, json
+          files = sorted(glob.glob("workflows/*.json"))
+          assert files
+          for f in files:
+              json.load(open(f, encoding="utf-8"))
+              print("ok", f)
+
+      - name: CLI help
+        run: |
+          python scripts/doctor.py --help
+          python scripts/generate.py --help
+          python scripts/benchmark.py --help
+          python scripts/download_models.py --profile all --model-root ./models --dry-run
