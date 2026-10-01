@@ -1,0 +1,60 @@
+# secrets
+.env
+.env.*
+*.token
+*.key
+*.pem
+
+# python / tooling
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.venv/
+venv/
+*.egg-info/
+build/
+dist/
+
+# local configuration (machine-specific paths)
+sparkdiffusion_config.json
+
+# models, data, outputs, caches
+models/
+checkpoints/
+output/
+outputs/
+input/
+temp/
+tmp/
+cache/
+logs/
+*.log
+benchmarks/local/
+
+# weights
+*.pth
+*.pt
+*.ckpt
+*.safetensors
+*.gguf
+*.bin
+*.onnx
+
+# media (README images are force-added explicitly)
+*.mp4
+*.mov
+*.avi
+*.webm
+*.gif
+*.png
+*.jpg
+*.jpeg
+*.webp
+
+# OS / editors
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

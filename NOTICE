@@ -1,0 +1,14 @@
+ComfyUI-SparkDiffusion
+Copyright 2026 ComfyUI-SparkDiffusion contributors
+
+This product is an independent community integration of SparkDiffusion
+(https://github.com/AlibabaResearch/SparkDiffusion), Copyright Alibaba Group,
+licensed under the Apache License, Version 2.0. It is not an official
+AlibabaResearch project. SparkDiffusion source code is not included in this
+repository; it is installed separately by the user and executed unmodified.
+
+The CrossDistill timestep values and model profile settings in this repository
+are transcribed from the SparkDiffusion repository (commit ad6b65b) and the
+model cards of the alibabagroup/SparkWan* Hugging Face repositories.
+
+Wan 2.1 / Wan 2.2 model assets are provided by Wan-AI under their own licenses.

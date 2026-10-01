@@ -1,0 +1,5 @@
+# ComfyUI-SparkDiffusion adds NO packages to ComfyUI's Python environment.
+#
+# SparkDiffusion (torch, triton, the upstream repository and model weights) runs in a
+# separate "runtime" interpreter. Install those into that interpreter instead:
+#     see requirements-runtime.txt and the README section "SparkDiffusion runtime setup".

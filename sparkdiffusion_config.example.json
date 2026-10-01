@@ -1,0 +1,8 @@
+{
+  "_comment": "Copy to sparkdiffusion_config.json (git-ignored) and adjust. Node inputs and SPARKDIFFUSION_* environment variables take precedence.",
+  "backend": "wsl2",
+  "wsl_distro": "Ubuntu-24.04",
+  "repo": "/opt/sparkdiffusion/SparkDiffusion",
+  "python": "/opt/sparkdiffusion/venv/bin/python",
+  "model_root": "D:\\AI\\models\\sparkdiffusion"
+}
