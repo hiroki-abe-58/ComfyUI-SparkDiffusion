@@ -78,7 +78,7 @@ def main() -> int:
             print(f"[download] {repo} :: {f}", flush=True)
             hf_hub_download(repo_id=repo, filename=f, local_dir=target)
     if hf_hub_download is None and not args.dry_run:
-        print("\nhuggingface_hub is not installed here; run the commands above (pip install -U huggingface_hub).")
+        print("\nhuggingface_hub is not available in this Python; run the hf commands above instead.")
     return 0
 
 

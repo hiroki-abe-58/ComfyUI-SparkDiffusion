@@ -1,0 +1,31 @@
+# Files excluded from the Comfy Registry package (same syntax as .gitignore).
+# `comfy node publish` packages git-tracked files only; this list removes
+# development-only files from that set.
+
+# tests and CI
+tests/
+.github/
+
+# development tooling
+requirements-dev.txt
+.gitattributes
+.gitignore
+.comfyignore
+
+# never shipped (also git-ignored, listed here as a second safety net)
+.env
+.env.*
+*.pth
+*.pt
+*.ckpt
+*.safetensors
+*.gguf
+*.bin
+*.mp4
+*.mov
+*.webm
+*.png
+*.jpg
+*.jpeg
+benchmarks/
+sparkdiffusion_config.json

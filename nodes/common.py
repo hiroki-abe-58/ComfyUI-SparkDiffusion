@@ -3,6 +3,7 @@ package stays importable (and testable) outside ComfyUI."""
 
 from __future__ import annotations
 
+import importlib
 import os
 from typing import Callable, List, Optional, Tuple
 
@@ -117,7 +118,7 @@ def video_output(path: str):
     """A ComfyUI ``VIDEO`` object when the running ComfyUI supports it, else None."""
     for mod, attr in (("comfy_api.latest", "InputImpl"), ("comfy_api.input_impl", None)):
         try:
-            module = __import__(mod, fromlist=["x"])
+            module = importlib.import_module(mod)
             impl = getattr(module, attr) if attr else module
             return impl.VideoFromFile(path)
         except (ImportError, AttributeError):

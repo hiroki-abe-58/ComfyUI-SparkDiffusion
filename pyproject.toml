@@ -1,27 +1,31 @@
 [project]
-name = "comfyui-sparkdiffusion"
-version = "0.1.0"
-description = "ComfyUI integration for SparkDiffusion sparse few-step Wan video generation, with RTX 50-series and FP8 focused support."
+# Comfy Registry node ID (immutable once published): https://registry.comfy.org/nodes/sparkdiffusion
+name = "sparkdiffusion"
+version = "0.1.1"
+description = "Run AlibabaResearch SparkDiffusion (RoLA sparse attention + CrossDistill few-step) Wan2.1/2.2 video generation from ComfyUI in an isolated runtime, with RTX 50-series / FP8 focused support. Independent community integration, not an official AlibabaResearch project."
 readme = "README.md"
 license = { file = "LICENSE" }
 requires-python = ">=3.10"
-# The ComfyUI side has no extra dependencies. SparkDiffusion itself runs in a separate
-# runtime interpreter; see requirements-runtime.txt and the README.
+# Intentionally empty: nothing is installed into ComfyUI's Python. SparkDiffusion runs in a
+# separate runtime interpreter set up by the user (see requirements-runtime.txt and the README).
 dependencies = []
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: Apache Software License",
     "Operating System :: Microsoft :: Windows",
     "Operating System :: POSIX :: Linux",
+    "Environment :: GPU :: NVIDIA CUDA",
 ]
 
 [project.urls]
 Repository = "https://github.com/hiroki-abe-58/ComfyUI-SparkDiffusion"
+Documentation = "https://github.com/hiroki-abe-58/ComfyUI-SparkDiffusion#readme"
 Issues = "https://github.com/hiroki-abe-58/ComfyUI-SparkDiffusion/issues"
 Upstream = "https://github.com/AlibabaResearch/SparkDiffusion"
 
 [tool.comfy]
-DisplayName = "ComfyUI-SparkDiffusion"
+PublisherId = "hiroki-abe-58"
+DisplayName = "SparkDiffusion for ComfyUI"
 includes = []
 
 [tool.pytest.ini_options]

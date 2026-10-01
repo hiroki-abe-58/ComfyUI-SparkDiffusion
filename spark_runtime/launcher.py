@@ -27,6 +27,7 @@ Usage::
 from __future__ import annotations
 
 import argparse
+import importlib
 import json
 import os
 import platform
@@ -917,7 +918,7 @@ def run_probe(repo: str | None, do_compile: bool) -> int:
         info["torch_error"] = f"{type(exc).__name__}: {exc}"
     for mod in ("triton", "flash_attn", "pynvml", "imageio_ffmpeg"):
         try:
-            m = __import__(mod)
+            m = importlib.import_module(mod)
             info[mod] = getattr(m, "__version__", "installed")
         except Exception as exc:
             info[mod] = None

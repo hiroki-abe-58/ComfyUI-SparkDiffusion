@@ -29,7 +29,19 @@ def test_launcher_is_self_contained():
     """It runs in another interpreter: only stdlib imports at module level."""
     src = (ROOT / "spark_runtime" / "launcher.py").read_text(encoding="utf-8")
     top = [line for line in src.splitlines() if line.startswith(("import ", "from "))]
-    allowed = {"argparse", "json", "os", "platform", "runpy", "sys", "threading", "time", "traceback", "__future__"}
+    allowed = {
+        "argparse",
+        "importlib",
+        "json",
+        "os",
+        "platform",
+        "runpy",
+        "sys",
+        "threading",
+        "time",
+        "traceback",
+        "__future__",
+    }
     for line in top:
         mod = line.split()[1].split(".")[0]
         assert mod in allowed, line
