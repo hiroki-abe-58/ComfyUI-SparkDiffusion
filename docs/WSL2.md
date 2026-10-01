@@ -42,8 +42,9 @@ sudo mkdir -p /opt/sparkdiffusion && sudo chown "$USER" /opt/sparkdiffusion
 cd /opt/sparkdiffusion
 uv venv venv --python 3.12
 uv pip install --python venv/bin/python torch torchvision --index-url https://download.pytorch.org/whl/cu130
-# requirements-runtime.txt ships with ComfyUI-SparkDiffusion (adjust the path to your ComfyUI)
-uv pip install --python venv/bin/python -r "/mnt/c/ComfyUI/custom_nodes/ComfyUI-SparkDiffusion/requirements-runtime.txt"
+# requirements-runtime.txt ships with the node (adjust the path to your ComfyUI; the folder is
+# custom_nodes/sparkdiffusion for Registry/Manager installs, custom_nodes/ComfyUI-SparkDiffusion for git clones)
+uv pip install --python venv/bin/python -r "/mnt/c/ComfyUI/custom_nodes/sparkdiffusion/requirements-runtime.txt"
 git clone https://github.com/AlibabaResearch/SparkDiffusion
 ```
 

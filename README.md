@@ -6,6 +6,7 @@ from ComfyUI, with RTX 50-series / FP8 focused support.
 [![CI](https://github.com/hiroki-abe-58/ComfyUI-SparkDiffusion/actions/workflows/test.yml/badge.svg)](https://github.com/hiroki-abe-58/ComfyUI-SparkDiffusion/actions/workflows/test.yml)
 ![Python](https://img.shields.io/badge/python-3.10%E2%80%933.13-blue)
 [![License](https://img.shields.io/badge/license-Apache--2.0-green)](LICENSE)
+[![Comfy Registry](https://img.shields.io/badge/Comfy%20Registry-sparkdiffusion-blue)](https://registry.comfy.org/nodes/sparkdiffusion)
 ![ComfyUI](https://img.shields.io/badge/ComfyUI-custom%20node-lightgrey)
 ![Tested on RTX 5090](https://img.shields.io/badge/tested%20on-RTX%205090-76b900)
 
@@ -106,13 +107,31 @@ The dense Wan DiT weights are **not** needed.
 
 ### 1. The custom node (ComfyUI side)
 
-```bash
-cd ComfyUI/custom_nodes
-git clone https://github.com/hiroki-abe-58/ComfyUI-SparkDiffusion
-```
+The node is published on the [Comfy Registry](https://registry.comfy.org/nodes/sparkdiffusion) as
+**`sparkdiffusion`** (display name *SparkDiffusion for ComfyUI*). Pick one:
 
-No `pip install` is needed: the node has no Python dependencies beyond ComfyUI itself. Importing it does not import
-torch, Triton, flash-attn or SparkDiffusion and loads no weights (checked by the test suite and CI).
+* **ComfyUI-Manager** (recommended): *Manager* > *Custom Nodes Manager* > search **SparkDiffusion** > *Install*,
+  then restart ComfyUI.
+* **comfy-cli**:
+
+  ```bash
+  comfy node install sparkdiffusion
+  ```
+
+* **git** (development / latest `main`):
+
+  ```bash
+  cd ComfyUI/custom_nodes
+  git clone https://github.com/hiroki-abe-58/ComfyUI-SparkDiffusion
+  ```
+
+Registry installs land in `ComfyUI/custom_nodes/sparkdiffusion`, git clones in
+`ComfyUI/custom_nodes/ComfyUI-SparkDiffusion`; both work the same. To update, use the Manager's *Update* button,
+`comfy node update sparkdiffusion` or `git pull`.
+
+No pip packages are installed into ComfyUI's Python by any of these methods (`requirements.txt` is intentionally
+empty). Importing the node does not import torch, Triton, flash-attn or SparkDiffusion and loads no weights (checked
+by the test suite and CI). The node alone does not generate anything: set up the SparkDiffusion runtime next.
 
 ### 2. The SparkDiffusion runtime
 
@@ -129,9 +148,11 @@ Linux:
 ```bash
 python3.12 -m venv ~/sparkdiffusion/venv
 ~/sparkdiffusion/venv/bin/pip install torch torchvision --index-url https://download.pytorch.org/whl/cu130
-~/sparkdiffusion/venv/bin/pip install -r /path/to/ComfyUI/custom_nodes/ComfyUI-SparkDiffusion/requirements-runtime.txt
+~/sparkdiffusion/venv/bin/pip install -r /path/to/ComfyUI/custom_nodes/sparkdiffusion/requirements-runtime.txt
 git clone https://github.com/AlibabaResearch/SparkDiffusion ~/sparkdiffusion/SparkDiffusion
 ```
+
+(For git clones the folder is `custom_nodes/ComfyUI-SparkDiffusion`.)
 
 `requirements-runtime.txt` mirrors upstream's `requirements.txt`, including **Triton >= 3.4**, which upstream needs
 for native FP8 MMA lowering on RTX 50-series (SM120). flash-attn is optional at inference time.
@@ -320,6 +341,7 @@ Errors never print your environment variables, and absolute paths in log tails a
 ## Development
 
 ```bash
+git clone https://github.com/hiroki-abe-58/ComfyUI-SparkDiffusion && cd ComfyUI-SparkDiffusion
 pip install -r requirements-dev.txt
 pytest -q                     # model-free: schedules, profiles, paths, WSL conversion, subprocess, launcher, nodes
 ruff check . && ruff format --check .
@@ -327,6 +349,9 @@ SPARKDIFFUSION_REPO=/path/to/SparkDiffusion pytest -q tests/test_schedules.py   
 python scripts/generate.py --profile wan2.1-t2v-1.3b-480p-s90-4step --prompt "..."   # CLI, same path as the nodes
 python scripts/benchmark.py --profile wan2.1-t2v-14b-720p-s95-3step --torch-compile    # writes benchmarks/local/
 ```
+
+Releases: bump `version` in `pyproject.toml` on `main`; `.github/workflows/publish.yml` runs the model-free
+quality gate and publishes that version to the Comfy Registry.
 
 ## Roadmap
 

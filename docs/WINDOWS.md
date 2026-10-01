@@ -62,7 +62,7 @@ memory-efficient SDPA (exact attention) in that one situation and records
 # anywhere outside ComfyUI, e.g. D:\AI\sparkdiffusion
 uv venv venv-win --python 3.12              # or: py -3.12 -m venv venv-win
 uv pip install --python venv-win\Scripts\python.exe torch torchvision --index-url https://download.pytorch.org/whl/cu130
-uv pip install --python venv-win\Scripts\python.exe -r C:\ComfyUI\custom_nodes\ComfyUI-SparkDiffusion\requirements-runtime.txt
+uv pip install --python venv-win\Scripts\python.exe -r C:\ComfyUI\custom_nodes\sparkdiffusion\requirements-runtime.txt
 git clone https://github.com/AlibabaResearch/SparkDiffusion
 ```
 
