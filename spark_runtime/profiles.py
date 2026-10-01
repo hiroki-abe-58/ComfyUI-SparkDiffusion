@@ -260,8 +260,8 @@ _register(
         ),
         base_repo="Wan-AI/Wan2.2-T2V-A14B",
         entrypoint=ENTRY_WAN22_T2V,
-        status=STATUS_EXPERIMENTAL,
-        notes="Two 14B experts swapped through CPU memory; needs ~64 GB system RAM.",
+        status=STATUS_TESTED,
+        notes="Two 14B experts swapped through CPU memory (upstream); validated with 64 GB system RAM.",
     )
 )
 
