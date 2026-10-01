@@ -159,7 +159,7 @@ _register(
         checkpoint_files=("SparkWan2.1-T2V-1.3B-480P-0.90Sparsity.pth",),
         base_repo="Wan-AI/Wan2.1-T2V-1.3B",
         entrypoint=ENTRY_WAN21_T2V,
-        status=STATUS_IMPLEMENTED,
+        status=STATUS_TESTED,
         notes="Smoke-test / correctness profile.",
     )
 )
@@ -179,7 +179,7 @@ _register(
         checkpoint_files=("SparkWan2.1-T2V-14B-480P-0.90Sparsity.pth",),
         base_repo="Wan-AI/Wan2.1-T2V-14B",
         entrypoint=ENTRY_WAN21_T2V,
-        status=STATUS_IMPLEMENTED,
+        status=STATUS_TESTED,
     )
 )
 _register(
@@ -198,7 +198,7 @@ _register(
         checkpoint_files=("SparkWan2.1-T2V-14B-720P-0.95Sparsity-3Step.pth",),
         base_repo="Wan-AI/Wan2.1-T2V-14B",
         entrypoint=ENTRY_WAN21_T2V,
-        status=STATUS_IMPLEMENTED,
+        status=STATUS_TESTED,
         notes="Headline benchmark profile.",
     )
 )
@@ -218,7 +218,7 @@ _register(
         checkpoint_files=("SparkWan2.1-T2V-14B-720P-0.97Sparsity.pth",),
         base_repo="Wan-AI/Wan2.1-T2V-14B",
         entrypoint=ENTRY_WAN21_T2V,
-        status=STATUS_IMPLEMENTED,
+        status=STATUS_TESTED,
     )
 )
 _register(
@@ -237,7 +237,7 @@ _register(
         checkpoint_files=("SparkWan2.1-I2V-14B-720P-0.97Sparsity.pth",),
         base_repo="Wan-AI/Wan2.1-I2V-14B-720P",
         entrypoint=ENTRY_WAN21_I2V,
-        status=STATUS_IMPLEMENTED,
+        status=STATUS_TESTED,
         extra_assets=(CLIP_FILE,),
     )
 )

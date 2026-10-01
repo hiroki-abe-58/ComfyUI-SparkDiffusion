@@ -366,5 +366,5 @@ def describe_command(command: Sequence[str]) -> str:
     """Short, redacted rendering of a command for error messages and logs."""
     shown = [P.basename_any(command[0])]
     for arg in command[1:]:
-        shown.append(P.redact_paths(arg) if (os.sep in arg or "/" in arg) else arg)
+        shown.append(P.redact_paths(arg) if ("/" in arg or "\\" in arg) else arg)
     return mask_secrets(" ".join(shown))
