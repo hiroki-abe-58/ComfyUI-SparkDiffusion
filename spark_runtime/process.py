@@ -22,7 +22,7 @@ from dataclasses import dataclass, field
 from typing import Callable, Deque, Dict, List, Optional, Sequence
 
 from .command import describe_command, mask_secrets
-from .paths import redact_paths
+from .paths import redact_paths, system_executable
 
 EVENT_PREFIX = "@@SPARK@@ "
 LOG = logging.getLogger("ComfyUI-SparkDiffusion")
@@ -160,7 +160,8 @@ def kill_process_tree(pid: int, timeout: float = 5.0) -> None:
         psutil.wait_procs(alive, timeout=timeout)
         return
     if os.name == "nt":
-        subprocess.run(["taskkill", "/PID", str(pid), "/T", "/F"], capture_output=True, check=False)
+        taskkill = system_executable("taskkill")
+        subprocess.run([taskkill, "/PID", str(pid), "/T", "/F"], capture_output=True, check=False)
         return
     try:
         os.killpg(os.getpgid(pid), signal.SIGTERM)
@@ -352,7 +353,8 @@ def wsl_kill_hook(distro: str, pid_file: str) -> Callable[[], None]:
                 pid = int(f.read().strip())
         except (OSError, ValueError):
             return
-        cmd = ["wsl.exe"] + (["-d", distro] if distro else []) + ["--exec", "kill", "-KILL", f"-{pid}"]
+        cmd = [system_executable("wsl.exe")] + (["-d", distro] if distro else [])
+        cmd += ["--exec", "kill", "-KILL", f"-{pid}"]
         subprocess.run(cmd, capture_output=True, timeout=20, check=False)
 
     return _kill

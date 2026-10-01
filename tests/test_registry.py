@@ -114,3 +114,27 @@ def test_registry_package_contents():
     forbidden = re.compile(r"\.(pth|pt|ckpt|safetensors|gguf|bin|mp4|mov|webm|png|jpe?g|env)$|(^|/)\.env")
     assert not [f for f in files if forbidden.search(f)]
     assert "sparkdiffusion_config.json" not in files
+
+
+def test_download_plan_is_pinned(tmp_path):
+    import subprocess
+    import sys
+
+    script = ROOT / "scripts" / "download_models.py"
+    out = subprocess.run(
+        [sys.executable, str(script), "--profile", "all", "--model-root", str(tmp_path), "--dry-run"],
+        capture_output=True,
+        text=True,
+        check=True,
+    ).stdout.splitlines()
+    assert out and all(" --revision " in line for line in out), out
+    profiles = load("spark_runtime.profiles")
+    for prof in profiles.PROFILES.values():
+        assert any(prof.hf_repo in line and prof.hf_revision in line for line in out), prof.key
+    unpinned = subprocess.run(
+        [sys.executable, str(script), "--profile", "all", "--model-root", str(tmp_path), "--dry-run", "--unpinned"],
+        capture_output=True,
+        text=True,
+        check=True,
+    ).stdout
+    assert "--revision" not in unpinned

@@ -176,7 +176,8 @@ def test_prepare_run_wsl2(tmp_path):
     run = command.prepare_run(
         c, T2V, command.GenerationRequest(prompt="x"), str(tmp_path / "出力"), str(tmp_path / "work")
     )
-    assert run.command[:6] == ["wsl.exe", "-d", "Ubuntu-24.04", "--cd", "/", "--exec"]
+    assert paths.basename_any(run.command[0]).lower() == "wsl.exe"
+    assert run.command[1:6] == ["-d", "Ubuntu-24.04", "--cd", "/", "--exec"]
     assert run.command[6] == "/opt/sparkdiffusion/venv/bin/python"
     assert run.command[9].startswith("/mnt/") and run.command[9].endswith("/spark_runtime/launcher.py")
     assert run.command[-1].startswith("/mnt/") and run.env is None

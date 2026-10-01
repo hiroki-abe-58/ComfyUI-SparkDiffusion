@@ -162,3 +162,11 @@ def test_detect_automount_root_falls_back(monkeypatch):
     paths.detect_automount_root.cache_clear()
     assert paths.detect_automount_root("Ubuntu") == paths.DEFAULT_WSL_AUTOMOUNT_ROOT
     paths.detect_automount_root.cache_clear()
+
+
+def test_system_executable(monkeypatch):
+    monkeypatch.setattr(paths.shutil, "which", lambda name: "/usr/bin/" + name)
+    assert paths.system_executable("wsl.exe") == "/usr/bin/wsl.exe"
+    monkeypatch.setattr(paths.shutil, "which", lambda name: None)
+    monkeypatch.setattr(paths.os, "name", "posix")
+    assert paths.system_executable("taskkill") == "taskkill"

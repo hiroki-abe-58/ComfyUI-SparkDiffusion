@@ -31,7 +31,9 @@ def list_wsl_distros(timeout: float = 20.0) -> Optional[List[str]]:
     if os.name != "nt" or not shutil.which("wsl.exe"):
         return None
     try:
-        out = subprocess.run(["wsl.exe", "-l", "-q"], capture_output=True, timeout=timeout, check=False)
+        out = subprocess.run(
+            [P.system_executable("wsl.exe"), "-l", "-q"], capture_output=True, timeout=timeout, check=False
+        )
     except (OSError, subprocess.TimeoutExpired):
         return None
     raw = out.stdout
@@ -58,7 +60,7 @@ def probe_runtime(cfg: RuntimeConfig, compile_smoke: bool = True, timeout_s: flo
         args.append("--probe-compile")
     if backend == P.BACKEND_WSL2:
         cmd = (
-            ["wsl.exe"]
+            [P.system_executable("wsl.exe")]
             + (["-d", cfg.wsl_distro] if cfg.wsl_distro else [])
             + ["--cd", "/", "--exec", cfg.python, *args]
         )

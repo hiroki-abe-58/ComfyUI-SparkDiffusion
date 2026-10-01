@@ -168,7 +168,8 @@ for native FP8 MMA lowering on RTX 50-series (SM120). flash-attn is optional at 
 ```
 
 The VAE, umT5 and tokenizer files are byte-identical in every Wan 2.1 / 2.2 repository, so one copy serves all
-profiles. Download what a profile needs (skips files you already have):
+profiles. Download what a profile needs (skips files you already have). Downloads are pinned to the Hugging Face commits
+validated here (`hf_revision` in each profile); add `--unpinned` to fetch the repositories' current revision:
 
 ```bash
 python scripts/download_models.py --profile wan2.1-t2v-1.3b-480p-s90-4step --model-root D:/AI/models/spark

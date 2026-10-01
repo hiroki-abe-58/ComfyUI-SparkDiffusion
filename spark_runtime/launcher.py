@@ -27,6 +27,7 @@ Usage::
 from __future__ import annotations
 
 import argparse
+import contextlib
 import importlib
 import json
 import os
@@ -50,10 +51,9 @@ _FP8_CLASSES = ("FP8Linear", "FP8LinearFusedGELU")
 
 def _setup_stdio() -> None:
     for stream in (sys.stdout, sys.stderr):
-        try:
+        # reconfigure() is missing on some wrapped streams; output still works without it
+        with contextlib.suppress(AttributeError, ValueError, OSError):
             stream.reconfigure(encoding="utf-8", errors="replace", line_buffering=True)
-        except Exception:
-            pass
 
 
 def emit(event: str, **payload) -> None:
@@ -123,12 +123,11 @@ class CancelWatchdog(threading.Thread):
                 sys.stdout.flush()
                 sys.stderr.flush()
                 if hasattr(os, "killpg"):
-                    try:
-                        import signal
+                    import signal
 
+                    # takes the launcher and its compile workers down; os._exit below covers Windows
+                    with contextlib.suppress(OSError):
                         os.killpg(os.getpgrp(), signal.SIGKILL)
-                    except Exception:
-                        pass
                 os._exit(EXIT_CANCELLED)
             time.sleep(self.poll)
 
@@ -712,10 +711,9 @@ def run_job(job_path: str) -> int:
         return EXIT_CONFIG
 
     if hasattr(os, "setpgrp"):
-        try:
+        # already a group leader (e.g. started with setsid) -> keep the existing group
+        with contextlib.suppress(OSError):
             os.setpgrp()
-        except Exception:
-            pass
     if job.get("pid_file"):
         with open(job["pid_file"], "w", encoding="utf-8") as f:
             f.write(str(os.getpid()))

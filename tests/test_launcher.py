@@ -31,6 +31,7 @@ def test_launcher_is_self_contained():
     top = [line for line in src.splitlines() if line.startswith(("import ", "from "))]
     allowed = {
         "argparse",
+        "contextlib",
         "importlib",
         "json",
         "os",

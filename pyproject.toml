@@ -1,7 +1,7 @@
 [project]
 # Comfy Registry node ID (immutable once published): https://registry.comfy.org/nodes/sparkdiffusion
 name = "sparkdiffusion"
-version = "0.1.1"
+version = "0.1.2"
 description = "Run AlibabaResearch SparkDiffusion (RoLA sparse attention + CrossDistill few-step) Wan2.1/2.2 video generation from ComfyUI in an isolated runtime, with RTX 50-series / FP8 focused support. Independent community integration, not an official AlibabaResearch project."
 readme = "README.md"
 license = { file = "LICENSE" }

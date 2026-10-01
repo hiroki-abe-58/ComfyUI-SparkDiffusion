@@ -10,6 +10,7 @@ from __future__ import annotations
 import functools
 import os
 import re
+import shutil
 import subprocess
 from dataclasses import dataclass, field
 from pathlib import Path, PurePosixPath, PureWindowsPath
@@ -87,9 +88,22 @@ def wsl_to_windows(path: str, automount_root: str = DEFAULT_WSL_AUTOMOUNT_ROOT, 
     raise PathConversionError(f"cannot map {path!r} back to Windows")
 
 
+def system_executable(name: str) -> str:
+    """Absolute path of a system tool (``wsl.exe``, ``taskkill``), falling back to System32 on Windows."""
+    found = shutil.which(name)
+    if found:
+        return found
+    if os.name == "nt":
+        exe = name if name.lower().endswith(".exe") else name + ".exe"
+        candidate = os.path.join(os.environ.get("SystemRoot", "C:\\Windows"), "System32", exe)
+        if os.path.isfile(candidate):
+            return candidate
+    return name
+
+
 def wslpath_via_wsl(path: str, distro: Optional[str] = None, timeout: float = 20.0) -> str:
     """Ask ``wslpath -a`` inside the distro (authoritative, honours wsl.conf)."""
-    cmd: List[str] = ["wsl.exe"]
+    cmd: List[str] = [system_executable("wsl.exe")]
     if distro:
         cmd += ["-d", distro]
     cmd += ["--exec", "wslpath", "-a", "-u", path]

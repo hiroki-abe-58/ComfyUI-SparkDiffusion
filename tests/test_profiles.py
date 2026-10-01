@@ -120,3 +120,13 @@ def test_unknown_profile():
 def test_statuses_are_known():
     allowed = {P.STATUS_TESTED, P.STATUS_IMPLEMENTED, P.STATUS_EXPERIMENTAL, P.STATUS_PLANNED}
     assert all(p.status in allowed for p in P.PROFILES.values())
+
+
+def test_checkpoints_and_assets_are_pinned_to_validated_revisions():
+    import re
+
+    for p in P.PROFILES.values():
+        assert re.fullmatch(r"[0-9a-f]{40}", p.hf_revision), p.key
+        assert p.as_dict()["hf_revision"] == p.hf_revision
+    for repo, rev in P.ASSET_REVISIONS.items():
+        assert repo.startswith("Wan-AI/") and re.fullmatch(r"[0-9a-f]{40}", rev)

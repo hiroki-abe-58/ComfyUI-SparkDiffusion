@@ -316,7 +316,7 @@ def prepare_run(
     env: Optional[Dict[str, str]] = None
     cwd: Optional[str] = None
     if backend == P.BACKEND_WSL2:
-        command = ["wsl.exe"]
+        command = [P.system_executable("wsl.exe")]
         if cfg.wsl_distro:
             command += ["-d", cfg.wsl_distro]
         command += ["--cd", "/", "--exec", cfg.python, *py_args]

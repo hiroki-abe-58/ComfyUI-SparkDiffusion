@@ -72,6 +72,7 @@ class Profile:
     status: str
     notes: str = ""
     extra_assets: Tuple[str, ...] = field(default_factory=tuple)
+    hf_revision: str = ""  # Hugging Face commit of the checkpoint repo validated by this project
 
     @property
     def sparsity(self) -> float:
@@ -124,6 +125,7 @@ class Profile:
             "sparsity": self.sparsity,
             "scheduler": self.scheduler,
             "hf_repo": self.hf_repo,
+            "hf_revision": self.hf_revision,
             "checkpoint_files": list(self.checkpoint_files),
             "base_repo": self.base_repo,
             "entrypoint": self.entrypoint,
@@ -131,6 +133,12 @@ class Profile:
             "required_assets": required_assets(self),
         }
 
+
+# Hugging Face commits of the shared-asset repositories validated by this project.
+ASSET_REVISIONS: Dict[str, str] = {
+    "Wan-AI/Wan2.1-T2V-1.3B": "37ec512624d61f7aa208f7ea8140a131f93afc9a",
+    "Wan-AI/Wan2.1-I2V-14B-720P": "8823af45fcc58a8aa999a54b04be9abc7d2aac98",
+}
 
 PROFILES: Dict[str, Profile] = {}
 
@@ -156,6 +164,7 @@ _register(
         topk_ratio=0.1,
         topk_range=(0.1, 0.1),
         hf_repo="alibabagroup/SparkWan2.1-T2V-1.3B-480P-0.90Sparsity",
+        hf_revision="26342a92ed1e0744172eddfd71da236cb73c412f",
         checkpoint_files=("SparkWan2.1-T2V-1.3B-480P-0.90Sparsity.pth",),
         base_repo="Wan-AI/Wan2.1-T2V-1.3B",
         entrypoint=ENTRY_WAN21_T2V,
@@ -176,6 +185,7 @@ _register(
         topk_ratio=0.1,
         topk_range=(0.1, 0.1),
         hf_repo="alibabagroup/SparkWan2.1-T2V-14B-480P-0.90Sparsity",
+        hf_revision="1bc44b3a0193121c9fe6d57b0e7a2d475dda3a02",
         checkpoint_files=("SparkWan2.1-T2V-14B-480P-0.90Sparsity.pth",),
         base_repo="Wan-AI/Wan2.1-T2V-14B",
         entrypoint=ENTRY_WAN21_T2V,
@@ -195,6 +205,7 @@ _register(
         topk_ratio=0.05,
         topk_range=(0.05, 0.1),
         hf_repo="alibabagroup/SparkWan2.1-T2V-14B-720P-0.95Sparsity-3Step",
+        hf_revision="8fd67ee46dc680d7bf111340555eadd12aed17dd",
         checkpoint_files=("SparkWan2.1-T2V-14B-720P-0.95Sparsity-3Step.pth",),
         base_repo="Wan-AI/Wan2.1-T2V-14B",
         entrypoint=ENTRY_WAN21_T2V,
@@ -215,6 +226,7 @@ _register(
         topk_ratio=0.03,
         topk_range=(0.03, 0.1),
         hf_repo="alibabagroup/SparkWan2.1-T2V-14B-720P-0.97Sparsity",
+        hf_revision="1f0a6754be58650116effc2bd33db3e396026a78",
         checkpoint_files=("SparkWan2.1-T2V-14B-720P-0.97Sparsity.pth",),
         base_repo="Wan-AI/Wan2.1-T2V-14B",
         entrypoint=ENTRY_WAN21_T2V,
@@ -234,6 +246,7 @@ _register(
         topk_ratio=0.03,
         topk_range=(0.03, 0.1),
         hf_repo="alibabagroup/SparkWan2.1-I2V-14B-720P-0.97Sparsity",
+        hf_revision="eb224f5db6f5fe2c2f07ab63ad0859589294e478",
         checkpoint_files=("SparkWan2.1-I2V-14B-720P-0.97Sparsity.pth",),
         base_repo="Wan-AI/Wan2.1-I2V-14B-720P",
         entrypoint=ENTRY_WAN21_I2V,
@@ -254,6 +267,7 @@ _register(
         topk_ratio=0.05,
         topk_range=(0.05, 0.1),
         hf_repo="alibabagroup/SparkWan2.2-T2V-14B-480P-0.95Sparsity",
+        hf_revision="9f6a3fad94fa9153bcf6f46bce372961351127f0",
         checkpoint_files=(
             "SparkWan2.2-T2V-14B-480P-0.95Sparsity-High.pth",
             "SparkWan2.2-T2V-14B-480P-0.95Sparsity-Low.pth",
