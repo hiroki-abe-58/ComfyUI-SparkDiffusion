@@ -1,0 +1,256 @@
+{
+  "last_node_id": 5,
+  "last_link_id": 3,
+  "nodes": [
+    {
+      "id": 1,
+      "type": "SparkDiffusionRuntime",
+      "pos": [
+        40,
+        60
+      ],
+      "size": [
+        340,
+        330
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "runtime",
+          "type": "SPARKDIFFUSION_RUNTIME",
+          "links": [
+            1
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "SparkDiffusionRuntime"
+      },
+      "widgets_values": [
+        "auto",
+        "fp8",
+        true,
+        false,
+        "",
+        "",
+        "",
+        "",
+        "auto",
+        "",
+        3600
+      ]
+    },
+    {
+      "id": 2,
+      "type": "SparkDiffusionProfile",
+      "pos": [
+        40,
+        430
+      ],
+      "size": [
+        340,
+        110
+      ],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "profile",
+          "type": "SPARKDIFFUSION_PROFILE",
+          "links": [
+            2
+          ],
+          "slot_index": 0
+        },
+        {
+          "name": "profile_info",
+          "type": "STRING",
+          "links": null,
+          "slot_index": 1
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "SparkDiffusionProfile"
+      },
+      "widgets_values": [
+        "wan2.1-i2v-14b-720p-s97-4step",
+        0.0
+      ]
+    },
+    {
+      "id": 4,
+      "type": "LoadImage",
+      "pos": [
+        430,
+        60
+      ],
+      "size": [
+        320,
+        360
+      ],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            3
+          ],
+          "slot_index": 0
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": null,
+          "slot_index": 1
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LoadImage"
+      },
+      "widgets_values": [
+        "example.png",
+        "image"
+      ]
+    },
+    {
+      "id": 3,
+      "type": "SparkDiffusionImageToVideo",
+      "pos": [
+        780,
+        60
+      ],
+      "size": [
+        520,
+        640
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "runtime",
+          "type": "SPARKDIFFUSION_RUNTIME",
+          "link": 1
+        },
+        {
+          "name": "profile",
+          "type": "SPARKDIFFUSION_PROFILE",
+          "link": 2
+        },
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 3
+        }
+      ],
+      "outputs": [
+        {
+          "name": "video",
+          "type": "VIDEO",
+          "links": null,
+          "slot_index": 0
+        },
+        {
+          "name": "frames",
+          "type": "IMAGE",
+          "links": null,
+          "slot_index": 1
+        },
+        {
+          "name": "video_path",
+          "type": "STRING",
+          "links": null,
+          "slot_index": 2
+        },
+        {
+          "name": "metadata",
+          "type": "STRING",
+          "links": null,
+          "slot_index": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "SparkDiffusionImageToVideo"
+      },
+      "widgets_values": [
+        "The subject slowly turns toward the camera, gentle natural motion.",
+        0,
+        "fixed",
+        81,
+        "sparkdiffusion/SparkWanI2V",
+        false,
+        false,
+        1
+      ]
+    },
+    {
+      "id": 5,
+      "type": "Note",
+      "pos": [
+        40,
+        580
+      ],
+      "size": [
+        420,
+        220
+      ],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "properties": {},
+      "widgets_values": [
+        "ComfyUI-SparkDiffusion\n\n1. Install a SparkDiffusion runtime (see README: 'SparkDiffusion runtime setup').\n2. Set SPARKDIFFUSION_REPO / SPARKDIFFUSION_PYTHON / SPARKDIFFUSION_MODEL_ROOT\n   (or sparkdiffusion_config.json, or fill the optional Runtime fields).\n3. Windows + FP8: backend 'wsl2' runs the upstream FP8 path;\n   'windows-native' uses an experimental FP8 compatibility path.\n4. Run 'SparkDiffusion Doctor' first if anything fails."
+      ]
+    }
+  ],
+  "links": [
+    [
+      1,
+      1,
+      0,
+      3,
+      0,
+      "SPARKDIFFUSION_RUNTIME"
+    ],
+    [
+      2,
+      2,
+      0,
+      3,
+      1,
+      "SPARKDIFFUSION_PROFILE"
+    ],
+    [
+      3,
+      4,
+      0,
+      3,
+      2,
+      "IMAGE"
+    ]
+  ],
+  "groups": [],
+  "config": {},
+  "extra": {
+    "ds": {
+      "scale": 1.0,
+      "offset": [
+        0,
+        0
+      ]
+    }
+  },
+  "version": 0.4
+}
